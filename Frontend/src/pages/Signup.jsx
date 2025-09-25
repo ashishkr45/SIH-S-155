@@ -1,24 +1,23 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Signup = () => {
-  // Separate useState for each field
+  const { role } = useParams(); // student or teacher
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("student"); // default role
   const [message, setMessage] = useState(null);
 
   const navigate = useNavigate();
 
-  // Submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const res = await axios.post(
-        "http://localhost:5000/signup",
-        { name, email, password, role },
+        "http://localhost:5000/api/auth/signup",
+        { name, email, password, role }, // include role
         { withCredentials: true }
       );
 
@@ -26,8 +25,8 @@ const Signup = () => {
 
       if (res.data.success) {
         setTimeout(() => {
-          navigate("/signup"); // redirect to signup page itself
-        }, 1500);
+          navigate("/login"); // redirect after signup
+        }, 1000);
       }
     } catch (error) {
       if (error.response) {
@@ -39,75 +38,61 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Signup</h1>
+    <div className="flex items-center justify-center min-h-screen bg-white">
+      {/* Signup Card */}
+      <div className="bg-white border border-gray-200 p-10 rounded-2xl shadow-xl w-full max-w-md">
+        <h1 className="text-3xl font-extrabold mb-6 text-center text-black tracking-wide">
+          {role ? `Signup as ${role}` : "Signup"}
+        </h1>
 
         {message && (
-          <p className="mb-4 text-center text-sm text-red-600">{message}</p>
+          <p className="mb-4 text-center text-sm text-red-500 font-medium">
+            {message}
+          </p>
         )}
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          {/* Name */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <input
             type="text"
-            placeholder="Enter your name"
+            placeholder="Full Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="bg-white text-black placeholder-gray-500 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black transition"
           />
 
-          {/* Email */}
           <input
             type="email"
-            placeholder="Enter your email"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="bg-white text-black placeholder-gray-500 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black transition"
           />
 
-          {/* Password */}
           <input
             type="password"
-            placeholder="Enter your password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="bg-white text-black placeholder-gray-500 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black transition"
           />
 
-          {/* Role Selection */}
-          <div className="flex justify-between items-center">
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="role"
-                value="student"
-                checked={role === "student"}
-                onChange={(e) => setRole(e.target.value)}
-              />
-              Student
-            </label>
-
-            <label className="flex items-center gap-2">
-              <input
-                type="radio"
-                name="role"
-                value="teacher"
-                checked={role === "teacher"}
-                onChange={(e) => setRole(e.target.value)}
-              />
-              Teacher
-            </label>
-          </div>
-
-          {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition"
+            className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-neutral-800 transition shadow-lg"
           >
             Signup
           </button>
         </form>
+
+        <p className="text-center text-gray-600 mt-6 text-sm">
+          Already have an account?{" "}
+          <span
+            onClick={() => navigate(`/login/${role}`)}
+            className="text-black cursor-pointer hover:underline font-medium"
+          >
+            Login
+          </span>
+        </p>
       </div>
     </div>
   );

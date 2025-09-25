@@ -9,4 +9,5 @@ const studentSchema = new mongoose.Schema({
   tasks: { type: Array },
 });
 
-module.exports = mongoose.model("User", studentSchema);
+
+module.exports = mongoose.model("Student", studentSchema);

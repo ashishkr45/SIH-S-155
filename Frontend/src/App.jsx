@@ -1,27 +1,24 @@
-
-import { Routes,Route } from 'react-router-dom'
-import './App.css'
-import Home from "./pages/Home"
-import Signup from './pages/Signup'
-import Login from './pages/Login'
-
-import FaceRecognition from "./components/FaceRecognition";
+import { Routes, Route } from "react-router-dom";
+import "./App.css";
+import Home from "./pages/Home";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import StudentDashboard from "./pages/StudentDashboard";
+import TeacherDashboard from "./pages/TeacherDashboard";
 
 function App() {
-
   return (
-<>
-  <h1 class="text-3xl font-bold underline">
-    Hello world!
-  </h1>
-  <FaceRecognition />
-  <Routes>
-    <Route path="/" element={<Home/>}/>
-    <Route path="/login" element={<Login/>}/>
-    <Route path="/signup" element={<Signup/>}/>
-  </Routes>
-</>
-  )
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login/:role" element={<Login />} />
+        <Route path="/signup/:role" element={<Signup />} />
+
+        <Route path="/student-dashboard" element={<StudentDashboard/>} />
+        <Route path="/teacher-dashboard" element={<TeacherDashboard />} />
+      </Routes>
+    </>
+  );
 }
 
-export default App
+export default App;
