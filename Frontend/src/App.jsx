@@ -1,9 +1,9 @@
 
 import { Routes,Route } from 'react-router-dom'
 import './App.css'
-import Home from './components/pages/Home'
-import Signup from './components/pages/Signup'
-import Login from './components/pages/Login'
+import Home from "./pages/Home"
+import Signup from './pages/Signup'
+import Login from './pages/Login'
 
 import FaceRecognition from "./components/FaceRecognition";
 
