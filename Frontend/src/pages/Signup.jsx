@@ -25,7 +25,7 @@ const Signup = () => {
 
       if (res.data.success) {
         setTimeout(() => {
-          navigate("/login"); // redirect after signup
+          navigate(`/login/${role}`); // redirect after signup
         }, 1000);
       }
     } catch (error) {
